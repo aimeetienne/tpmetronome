@@ -1,7 +1,11 @@
 package IHM;
 
+import fr.istic.m2miage.Command;
+import invoker.MetronomeEngine;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.Label;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,20 +14,30 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+
 import java.awt.Font;
 import java.awt.Color;
+
 import javax.swing.JSlider;
 import javax.swing.DefaultComboBoxModel;
+
+import ConcreteCommand.Dec;
+import Controller.Controlleur;
 
 public class IHM extends JFrame {
 
 	private JPanel contentPane;
-
+	private JLabel label = new JLabel("2");
+	
+	
+	private Controlleur control = new Controlleur(this);
 	/**
 	 * Launch the application.
 	 */
@@ -53,6 +67,8 @@ public class IHM extends JFrame {
 		JButton btnNewButton = new JButton("Start");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
+				
 			}
 		});
 		
@@ -61,19 +77,18 @@ public class IHM extends JFrame {
 		JButton btnNewButton_2 = new JButton("Inc");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
+
 			}
 		});
 		
 		JButton btnNewButton_3 = new JButton("Dec");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				Command dec = new Dec(control);
+				dec.execute();		
 			}
 		});
-		
-		JLabel lblChoisirLaMesure = new JLabel("Choisir la mesure");
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"2", "3", "4", "5", "6", "7"}));
 		
 		JLabel lblAfficher = new JLabel("Afficheur");
 		lblAfficher.setForeground(Color.RED);
@@ -86,19 +101,24 @@ public class IHM extends JFrame {
 		JLabel lblLed = new JLabel("LED 1");
 		
 		JLabel lblLed_1 = new JLabel("LED 2");
+		
+		JLabel lblMesureActuelle = new JLabel("Beats per bar :");
+
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblChoisirLaMesure)
+							.addGap(120)
+							.addComponent(lblMesureActuelle)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addComponent(label))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(0)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGap(41)
 									.addComponent(btnNewButton)
 									.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -106,18 +126,18 @@ public class IHM extends JFrame {
 									.addPreferredGap(ComponentPlacement.UNRELATED)
 									.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
 									.addGap(5))
-								.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 									.addGap(38)))
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addComponent(lblAfficher, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblAfficher, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_contentPane.createSequentialGroup()
 									.addComponent(btnNewButton_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 									.addGap(34)))))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblLed_1, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-						.addComponent(lblLed, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE))
+						.addComponent(lblLed, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
 					.addGap(61))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -134,11 +154,11 @@ public class IHM extends JFrame {
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblLed_1)
 								.addComponent(lblAfficher, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblChoisirLaMesure)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(30)
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(label)
+						.addComponent(lblMesureActuelle))
+					.addGap(23)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addComponent(btnNewButton_1)
@@ -148,4 +168,17 @@ public class IHM extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
+
+	
+
+	/**
+	 * @param label the label to set
+	 */
+	public void setLabel(int i) {
+		this.label.setText(""+i);
+		
+	}
+	
+	
+	
 }

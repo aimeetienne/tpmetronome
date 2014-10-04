@@ -5,37 +5,37 @@ import fr.istic.m2miage.Command;
 public class MetronomeEngine {
 
 	
-	private Integer tempo;
-	private Integer beatperbar ;
+	private int tempo;
+	private int beatperbar ;
 	private boolean running;
-	private Command setbeatcommand;
+	private Command beatcommand;
 	private Command barcommand;
 	
 	/**
 	 * @return the tempo
 	 */
-	public Integer getTempo() {
+	public int getTempo() {
 		return tempo;
 	}
 
 	/**
 	 * @param tempo the tempo to set
 	 */
-	public void setTempo(Integer tempo) {
+	public void setTempo(int tempo) {
 		this.tempo = tempo;
 	}
 
 	/**
 	 * @return the beatperbar
 	 */
-	public Integer getBeatperbar() {
+	public int getBeatperbar() {
 		return beatperbar;
 	}
 
 	/**
 	 * @param beatperbar the beatperbar to set
 	 */
-	public void setBeatperbar(Integer beatperbar) {
+	public void setBeatperbar(int beatperbar) {
 		this.beatperbar = beatperbar;
 	}
 
@@ -57,14 +57,14 @@ public class MetronomeEngine {
 	 * @return the setbeatcommand
 	 */
 	public Command getSetbeatcommand() {
-		return setbeatcommand;
+		return beatcommand;
 	}
 
 	/**
 	 * @param setbeatcommand the setbeatcommand to set
 	 */
 	public void setSetbeatcommand(Command setbeatcommand) {
-		this.setbeatcommand = setbeatcommand;
+		this.beatcommand = setbeatcommand;
 	}
 
 	/**
