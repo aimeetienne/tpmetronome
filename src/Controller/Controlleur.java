@@ -24,6 +24,7 @@ public Controlleur(IHM ihm2) {
 		this.ihm= ihm2;
 	}
 
+
 public void Beatplus(){
 	model.setBeatperbar(model.getBeatperbar()+1);
 	
