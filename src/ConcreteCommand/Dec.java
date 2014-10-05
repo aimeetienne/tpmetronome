@@ -16,7 +16,6 @@ public class Dec implements Command {
 	public void execute() {
 		m.Beatmoins();
 	}
-	
-	public void test (){}
+
 
 }

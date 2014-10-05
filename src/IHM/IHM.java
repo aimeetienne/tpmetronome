@@ -29,6 +29,7 @@ import javax.swing.JSlider;
 import javax.swing.DefaultComboBoxModel;
 
 import ConcreteCommand.Dec;
+import ConcreteCommand.Inc;
 import Controller.Controlleur;
 
 public class IHM extends JFrame {
@@ -37,6 +38,12 @@ public class IHM extends JFrame {
 	private JLabel label = new JLabel("2");
 	
 	
+	public int getLabel() {
+		return Integer.parseInt(label.getText().toString());
+	}
+
+
+
 	private Controlleur control = new Controlleur(this);
 	/**
 	 * Launch the application.
@@ -77,7 +84,13 @@ public class IHM extends JFrame {
 		JButton btnNewButton_2 = new JButton("Inc");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				
+				//Command inc= new Inc(control);
+				//inc.execute();
+			if(getLabel()!=7){
+			Command inc= new Inc(control);
+			inc.execute();
+				}
 
 			}
 		});
@@ -85,8 +98,14 @@ public class IHM extends JFrame {
 		JButton btnNewButton_3 = new JButton("Dec");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				//Command dec = new Dec(control);
+				//dec.execute();
+				
+				if(getLabel()!=2){
 				Command dec = new Dec(control);
-				dec.execute();		
+				dec.execute();
+				}
 			}
 		});
 		
