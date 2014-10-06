@@ -31,6 +31,7 @@ import javax.swing.DefaultComboBoxModel;
 import ConcreteCommand.Dec;
 import ConcreteCommand.Inc;
 import Controller.Controlleur;
+import Materiels.Led;
 
 public class IHM extends JFrame {
 
@@ -70,6 +71,8 @@ public class IHM extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
+	
 		
 		JButton btnNewButton = new JButton("Start");
 		btnNewButton.addActionListener(new ActionListener() {
