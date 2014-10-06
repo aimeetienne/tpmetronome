@@ -27,12 +27,12 @@ public Controlleur(IHM ihm2) {
 
 public void Beatplus(){
 	model.setBeatperbar(model.getBeatperbar()+1);
-	ihm.setLabel(model.getBeatperbar());
+	ihm.setlamesure(model.getBeatperbar());
 	}
 
 public void Beatmoins(){
 	model.setBeatperbar(model.getBeatperbar()-1);
-	ihm.setLabel(model.getBeatperbar());
+	ihm.setlamesure(model.getBeatperbar());
 }
 
 public void Tempoplus(){

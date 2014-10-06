@@ -5,11 +5,15 @@ import invoker.MetronomeEngine;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.GridLayout;
+import java.awt.HeadlessException;
 import java.awt.Label;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -24,28 +28,51 @@ import javax.swing.JComboBox;
 
 import java.awt.Font;
 import java.awt.Color;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JSlider;
 import javax.swing.DefaultComboBoxModel;
 
 import ConcreteCommand.Dec;
 import ConcreteCommand.Inc;
+import ConcreteCommand.Start;
+import ConcreteCommand.Stop;
 import Controller.Controlleur;
-import Materiels.Led;
 
 public class IHM extends JFrame {
 
-	private JPanel contentPane;
-	private JLabel label = new JLabel("2");
 	
-	
-	public int getLabel() {
-		return Integer.parseInt(label.getText().toString());
-	}
-
-
-
 	private Controlleur control = new Controlleur(this);
+
+      
+      private JFrame metronome;//fenêtre principale
+
+      private JButton ON;//Bouton de marche
+      private JButton OFF;//Bouton d'arrêt
+      private JButton Inc;//Bouton d'augmentation de mesure
+      private JButton Dec;//Bouton de diminution de mesure
+      private JSlider sldTempo;//Slider de tempo
+
+      
+      //ActionListener associés aux boutons et au slider
+      private ActionListener listOn;
+      private ActionListener listOff;
+      private ActionListener listInc;
+      private ActionListener listDec;
+      private ChangeListener listTempo;
+      
+    //LED
+      private JPanel led1;
+      private JPanel led2;
+      
+      //Affichage
+      private JTextField letempo;
+      private JLabel lamesure;
+      private JTextField measureLabel;
+      private JTextField tempoLabel;
+      
+  	
 	/**
 	 * Launch the application.
 	 */
@@ -62,145 +89,133 @@ public class IHM extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public IHM() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		
 	
-		
-		JButton btnNewButton = new JButton("Start");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-			}
-		});
-		
-		JButton btnNewButton_1 = new JButton("Stop");
-		
-		JButton btnNewButton_2 = new JButton("Inc");
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				//Command inc= new Inc(control);
-				//inc.execute();
-			if(getLabel()!=7){
-			Command inc= new Inc(control);
-			inc.execute();
-				}
-
-			}
-		});
-		
-		JButton btnNewButton_3 = new JButton("Dec");
-		btnNewButton_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				//Command dec = new Dec(control);
-				//dec.execute();
-				
-				if(getLabel()!=2){
-				Command dec = new Dec(control);
-				dec.execute();
-				}
-			}
-		});
-		
-		JLabel lblAfficher = new JLabel("Afficheur");
-		lblAfficher.setForeground(Color.RED);
-		lblAfficher.setFont(new Font("Times New Roman", Font.BOLD, 11));
-		
-		JSlider slider = new JSlider();
-		slider.setMinimum(10);
-		slider.setMaximum(500);
-		
-		JLabel lblLed = new JLabel("LED 1");
-		
-		JLabel lblLed_1 = new JLabel("LED 2");
-		
-		JLabel lblMesureActuelle = new JLabel("Beats per bar :");
-
-		
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(120)
-							.addComponent(lblMesureActuelle)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(label))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(0)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(41)
-									.addComponent(btnNewButton)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnNewButton_1, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(btnNewButton_2, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-									.addGap(5))
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(slider, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addGap(38)))
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblAfficher, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(btnNewButton_3, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addGap(34)))))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblLed_1, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-						.addComponent(lblLed, GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
-					.addGap(61))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(86)
-							.addComponent(slider, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(59)
-							.addComponent(lblLed)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblLed_1)
-								.addComponent(lblAfficher, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(label)
-						.addComponent(lblMesureActuelle))
-					.addGap(23)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnNewButton_1)
-						.addComponent(btnNewButton_2)
-						.addComponent(btnNewButton_3))
-					.addGap(55))
-		);
-		contentPane.setLayout(gl_contentPane);
-	}
-
 	
+	 public IHM() {
 
-	/**
-	 * @param label the label to set
-	 */
-	public void setLabel(int i) {
-		this.label.setText(""+i);
-		
-	}
-	
+             
+         //Implémentation de la fenêtre
+         metronome=new JFrame("Métronome");
+         metronome.getContentPane().setLayout(new BorderLayout());
+         metronome.setSize(600, 500);
+         metronome.setLocationRelativeTo(null);
+         metronome.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         metronome.setVisible(true);
+         metronome.setResizable(false);
+
+         //Implémentation des éléments
+         ON=new JButton("ON");
+         OFF=new JButton("OFF");
+         Inc=new JButton("Inc");
+         Dec=new JButton("Dec");
+         sldTempo=new JSlider(40, 208);
+         letempo=new JTextField("124");
+         lamesure=new JLabel("2");
+         measureLabel=new JTextField("Measure : ");
+         tempoLabel=new JTextField("Tempo : ");
+         led1=new JPanel();
+         led2=new JPanel();
+         led1.setBackground(Color.black);
+         led2.setBackground(Color.black);
+         JPanel buttonPanel=new JPanel();
+         JPanel screenAndLedPanel=new JPanel();
+         JPanel ledPanel=new JPanel();
+         letempo.setEditable(false);
+         lamesure.setFocusable(false);
+         tempoLabel.setEditable(false);
+         measureLabel.setEditable(false);
+         
+         //ajout des composants
+         buttonPanel.setLayout(new GridLayout(1, 5));
+         screenAndLedPanel.setLayout(new GridLayout(2,4));
+         metronome.getContentPane().add(buttonPanel, BorderLayout.PAGE_END);
+         metronome.getContentPane().add(screenAndLedPanel, BorderLayout.PAGE_START);
+         metronome.getContentPane().add(sldTempo, BorderLayout.CENTER);
+         screenAndLedPanel.add(tempoLabel);
+         screenAndLedPanel.add(letempo);
+         screenAndLedPanel.add(led1);
+         screenAndLedPanel.add(led2);
+         screenAndLedPanel.add(measureLabel);
+         screenAndLedPanel.add(lamesure);
+         
+         screenAndLedPanel.add(new JPanel());
+         screenAndLedPanel.add(new JPanel());
+         buttonPanel.add(ON);
+         buttonPanel.add(OFF);
+         buttonPanel.add(new JPanel());
+         buttonPanel.add(Dec);
+         buttonPanel.add(Inc);
+         letempo.setSize(100, 60);
+         
+         //Mise en place des listeners
+         this.listOn=new ActionListener() {
+                 public void actionPerformed(ActionEvent arg0) {
+                	 Command s=new Start(control);
+                	    	  s.execute();        
+                 }
+         };
+         this.listOff=new ActionListener() {
+                 public void actionPerformed(ActionEvent arg0) {
+                	 Command st=new Stop(control);
+                	      	  st.execute();       
+                 }
+         };
+         this.listInc=new ActionListener() {
+                 public void actionPerformed(ActionEvent arg0) {
+                	 if(getlamesure()!=7 ){
+                		 Command inc=new Inc(control);
+             				inc.execute();
+             				}    
+                 }
+         };
+         this.listDec=new ActionListener() {
+                 public void actionPerformed(ActionEvent arg0) {
+
+     				if(getlamesure()!=2){
+     					 Command dec=new Dec(control);
+     							dec.execute();
+     				}     
+                 }
+         };
+         this.listTempo=new ChangeListener() {
+                 public void stateChanged(ChangeEvent e) {
+                                                      
+                 }
+         };
+         ON.addActionListener(listOn);
+         OFF.addActionListener(listOff);
+         Inc.addActionListener(listInc);
+         Dec.addActionListener(listDec);
+         sldTempo.addChangeListener(listTempo);
+         
+ }
+ 
+ /**
+  * Flash la led 1 en utilisant un timer pour
+  * que le flash soit visible
+  */
+
+	  public JTextField getScreen() {
+			return letempo;
+		}
+
+
+
+		public void setScreen(JTextField letempo) {
+			this.letempo = letempo;
+		}
+
+
+
+		public int getlamesure() {
+			return Integer.parseInt(lamesure.getText().toString());
+		}
+
+
+
+		public void setlamesure(int i) {
+			this.lamesure.setText(""+i);
+		}
 	
 	
 }
