@@ -68,9 +68,10 @@ public class IHM extends JFrame {
       
       //Affichage
       private JTextField letempo;
+      private JTextField tempoLabel;
       private JLabel lamesure;
       private JTextField measureLabel;
-      private JTextField tempoLabel;
+    
       
   	
 	/**
