@@ -4,9 +4,9 @@ import Controller.Controlleur;
 import invoker.MetronomeEngine;
 import fr.istic.m2miage.Command;
 
-public class Dec implements Command {
+public class CommandDec implements Command {
 
-	public Dec(Controlleur m) {
+	public CommandDec(Controlleur m) {
 			this.m = m;
 	}
 
@@ -19,3 +19,4 @@ public class Dec implements Command {
 
 
 }
+

@@ -15,25 +15,24 @@ import fr.istic.m2miage.Command;
 
 public class Controlleur {
 
-	
+	private MetronomeEngine model;
 	private IHM ihm ;
-	private MetronomeEngine model = new MetronomeEngine();
-
-
-public Controlleur(IHM ihm2) {
+	
+public Controlleur(IHM ihm2, MetronomeEngine model) {
 		this.ihm= ihm2;
+		this.model=model;
 	}
+
+
 
 
 public void Beatplus(){
-	model.setBeatperbar(model.getBeatperbar()+1);
-	ihm.setlamesure(model.getBeatperbar());
+	model.setMesure(model.getMesure()+1);
 	}
 
 public void Beatmoins(){
-	model.setBeatperbar(model.getBeatperbar()-1);
-	ihm.setlamesure(model.getBeatperbar());
-}
+	model.setMesure(model.getMesure()-1);
+	}
 
 public void Tempoplus(){
 	model.setTempo(model.getTempo()+1);
@@ -45,16 +44,71 @@ public void Tempomoins(){
 
 }
 
+
+/**
+ * Démarre le moteur
+ */
 public void Start(){
 	if(!model.isRunning())
 		model.setRunning(true);
 }
 
+/**
+ *Arrête le moteur
+ */
 
 public void Stop(){
 	if(model.isRunning())
 		model.setRunning(false);
 }
+
+/**
+ * Pour chaque tempo en flashant la LED1 et en jouant un son
+ */
+public void doTempo() {
+
+}
+
+/**
+ * Traitement de tempo et de la mesure
+ */
+public void traitement(){
+	}
+
+/**
+ * Marquant le premier temp de chaque mesure en flashant la LED2 et en jouant un son
+ */
+public void doMesure() {
+	
+}
+
+public IHM getIhm() {
+	return ihm;
+}
+
+
+public void setIhm(IHM ihm) {
+	this.ihm = ihm;
+}
+
+public MetronomeEngine getModel() {
+	return model;
+}
+
+
+public void setModel(MetronomeEngine model) {
+	this.model = model;
+}
+
+/**
+ * Notification venant du moteur pour mettre l'ihm à jour
+ */
+public void updateMoteur() {
+	ihm.setLeTempo(Integer.toString(model.getTempo()));
+	ihm.setlamesure(Integer.toString(model.getMesure()));
+}
+
+
 
 }
 

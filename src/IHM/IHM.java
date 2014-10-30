@@ -34,26 +34,31 @@ import java.util.TimerTask;
 import javax.swing.JSlider;
 import javax.swing.DefaultComboBoxModel;
 
-import ConcreteCommand.Dec;
-import ConcreteCommand.Inc;
-import ConcreteCommand.Start;
-import ConcreteCommand.Stop;
+import ConcreteCommand.CommandDec;
+import ConcreteCommand.CommandInc;
+import ConcreteCommand.CommandStart;
+import ConcreteCommand.CommandStop;
+import ConcreteCommand.CommandDec;
+import ConcreteCommand.CommandInc;
+import ConcreteCommand.CommandStart;
+import ConcreteCommand.CommandStop;
 import Controller.Controlleur;
+import Materiels.Clavier;
 
 public class IHM extends JFrame {
 
 	
-	private Controlleur control = new Controlleur(this);
+	private Controlleur control;
 
       
       private JFrame metronome;//fenêtre principale
-
+      
       private JButton ON;//Bouton de marche
       private JButton OFF;//Bouton d'arrêt
       private JButton Inc;//Bouton d'augmentation de mesure
       private JButton Dec;//Bouton de diminution de mesure
       private JSlider sldTempo;//Slider de tempo
-
+      private Clavier clavier;
       
       //ActionListener associés aux boutons et au slider
       private ActionListener listOn;
@@ -96,7 +101,7 @@ public class IHM extends JFrame {
 
              
          //Implémentation de la fenêtre
-         metronome=new JFrame("Métronome");
+         metronome=new JFrame("TpMétronome");
          metronome.getContentPane().setLayout(new BorderLayout());
          metronome.setSize(600, 500);
          metronome.setLocationRelativeTo(null);
@@ -104,11 +109,12 @@ public class IHM extends JFrame {
          metronome.setVisible(true);
          metronome.setResizable(false);
 
-         //Implémentation des éléments
+         //Implémentation des éléments de la fenêtre
          ON=new JButton("ON");
          OFF=new JButton("OFF");
          Inc=new JButton("Inc");
          Dec=new JButton("Dec");
+         clavier=new Clavier();
          sldTempo=new JSlider(40, 208);
          letempo=new JTextField("124");
          lamesure=new JLabel("2");
@@ -151,20 +157,20 @@ public class IHM extends JFrame {
          //Mise en place des listeners
          this.listOn=new ActionListener() {
                  public void actionPerformed(ActionEvent arg0) {
-                	 Command s=new Start(control);
+                	 Command s=new CommandStart(control);
                 	    	  s.execute();        
                  }
          };
          this.listOff=new ActionListener() {
                  public void actionPerformed(ActionEvent arg0) {
-                	 Command st=new Stop(control);
+                	 Command st=new CommandStop(control);
                 	      	  st.execute();       
                  }
          };
          this.listInc=new ActionListener() {
                  public void actionPerformed(ActionEvent arg0) {
                 	 if(getlamesure()!=7 ){
-                		 Command inc=new Inc(control);
+                		 Command inc=new CommandInc(control);
              				inc.execute();
              				}    
                  }
@@ -173,7 +179,7 @@ public class IHM extends JFrame {
                  public void actionPerformed(ActionEvent arg0) {
 
      				if(getlamesure()!=2){
-     					 Command dec=new Dec(control);
+     					 Command dec=new CommandDec(control);
      							dec.execute();
      				}     
                  }
@@ -191,19 +197,24 @@ public class IHM extends JFrame {
          
  }
  
- /**
-  * Flash la led 1 en utilisant un timer pour
-  * que le flash soit visible
-  */
-
-	  public JTextField getScreen() {
+		/**
+		 * Modifie l'affichage
+		 */
+ 	  public JTextField getLeTempo() {
 			return letempo;
 		}
 
 
 
-		public void setScreen(JTextField letempo) {
-			this.letempo = letempo;
+		public void setLeTempo(String s) {
+			this.letempo.setText(s);
+		}
+
+		/**
+		 * Retourne la valeur du slider
+		 */
+		public int getSlider(){
+			return sldTempo.getValue();
 		}
 
 
@@ -214,8 +225,8 @@ public class IHM extends JFrame {
 
 
 
-		public void setlamesure(int i) {
-			this.lamesure.setText(""+i);
+		public void setlamesure(String s) {
+			this.lamesure.setText(s);
 		}
 	
 	

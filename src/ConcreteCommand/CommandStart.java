@@ -3,20 +3,14 @@ package ConcreteCommand;
 import Controller.Controlleur;
 import fr.istic.m2miage.Command;
 
-public class Stop implements Command {
-
-	public Stop(Controlleur c) {
-		super();
-		this.c = c;
-	}
-
+public class CommandStart implements Command{
 	private Controlleur c;
-
+	public CommandStart(Controlleur c){
+		this.c=c;
+	}
 	@Override
 	public void execute() {
-		
-		c.Stop();
+		c.Start();	
 	}
-	
-	
+
 }

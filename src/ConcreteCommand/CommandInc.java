@@ -3,10 +3,10 @@ package ConcreteCommand;
 import Controller.Controlleur;
 import fr.istic.m2miage.Command;
 
-public class Inc implements Command {
+public class CommandInc implements Command {
 private Controlleur c;
 	
-	public Inc(Controlleur c){
+	public CommandInc(Controlleur c){
 		this.c=c;
 		
 	}
