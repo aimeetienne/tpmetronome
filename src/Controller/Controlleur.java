@@ -25,13 +25,20 @@ public Controlleur(IHM ihm2, MetronomeEngine model) {
 
 
 
-
+/**
+ * Augmenter la mesure du moteur
+ */
 public void Beatplus(){
 	model.setMesure(model.getMesure()+1);
+	ihm.getClavier().setFalse(2);
 	}
 
+/**
+ * Diminuer la mesure du moteur
+ */
 public void Beatmoins(){
 	model.setMesure(model.getMesure()-1);
+	ihm.getClavier().setFalse(3);	
 	}
 
 public void Tempoplus(){
@@ -49,8 +56,10 @@ public void Tempomoins(){
  * Démarre le moteur
  */
 public void Start(){
-	if(!model.isRunning())
+	if(!model.isRunning()){
 		model.setRunning(true);
+		}
+	ihm.getClavier().setFalse(0);
 }
 
 /**
@@ -58,8 +67,10 @@ public void Start(){
  */
 
 public void Stop(){
-	if(model.isRunning())
+	if(model.isRunning()){
 		model.setRunning(false);
+	}
+	ihm.getClavier().setFalse(1);
 }
 
 /**
@@ -73,6 +84,7 @@ public void doTempo() {
  * Traitement de tempo et de la mesure
  */
 public void traitement(){
+	model.traiter();
 	}
 
 /**
@@ -108,7 +120,13 @@ public void updateMoteur() {
 	ihm.setlamesure(Integer.toString(model.getMesure()));
 }
 
-
+/**
+ * Notification venant de l'ihm pour mettre le moteur à jour
+ */
+public void updateIhm() {
+	model.setTempo(ihm.getSlider());	
+	ihm.getMolette().setCurrent(ihm.getMolette().getNewValue());
+}
 
 }
 

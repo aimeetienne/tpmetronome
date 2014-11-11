@@ -44,12 +44,15 @@ import ConcreteCommand.CommandStart;
 import ConcreteCommand.CommandStop;
 import Controller.Controlleur;
 import Materiels.Clavier;
+import Materiels.Molette;
 
 public class IHM extends JFrame {
 
 	
 	private Controlleur control;
 
+	private Molette molette;
+	
       
       private JFrame metronome;//fenêtre principale
       
@@ -101,7 +104,7 @@ public class IHM extends JFrame {
 
              
          //Implémentation de la fenêtre
-         metronome=new JFrame("TpMétronome");
+		 metronome=new JFrame("TpMétronome");
          metronome.getContentPane().setLayout(new BorderLayout());
          metronome.setSize(600, 500);
          metronome.setLocationRelativeTo(null);
@@ -110,6 +113,7 @@ public class IHM extends JFrame {
          metronome.setResizable(false);
 
          //Implémentation des éléments de la fenêtre
+         molette=new Molette();
          ON=new JButton("ON");
          OFF=new JButton("OFF");
          Inc=new JButton("Inc");
@@ -228,6 +232,21 @@ public class IHM extends JFrame {
 		public void setlamesure(String s) {
 			this.lamesure.setText(s);
 		}
-	
-	
+
+
+		/**
+		 * Retourne la molette
+		 */
+		public Molette getMolette() {
+			return this.molette;
+		}
+
+		/**
+		 * Retourne le clavier
+		 */
+		public Clavier getClavier(){
+			return this.clavier;
+		}
+		
+		
 }

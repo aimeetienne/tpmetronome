@@ -92,6 +92,18 @@ public class MetronomeEngine {
 		
 		
 	}
+	
+	
+	public void traiter() {
+		if(compteurTempo>=mesure-1){
+			compteurTempo=0;
+			cmdMesure.execute();
+		}
+		else{
+			cmdTempo.execute();
+			compteurTempo++;
+		}
+	}
 
 
 	
