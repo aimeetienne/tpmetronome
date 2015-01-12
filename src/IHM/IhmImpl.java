@@ -79,7 +79,7 @@ IClavier boutonStop;
 
 
 /**
-* Launch aaaaaaaaaaaaaaaaaaaaaaaathe application.
+* Launch bbbbbbbthe application.
 */
 @SuppressWarnings("static-access")
 public IhmImpl() {
