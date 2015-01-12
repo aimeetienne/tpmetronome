@@ -4,7 +4,12 @@ import ConcreteCommand.ICommand;
 import Controller.IControlleur;
 import IHM.IIhm;
 import IHM.IhmImpl;
-
+/**
+ * 
+ * @author dabo mohamed et odabalo essossolam tiadema
+ * c'est le slider concret qui s'occupe de générer les valeurs entre 0 et 10 qui sont ensuite transformer pour obtenir les valeurs
+ * du tempo.
+ */
 public class SliderImpl implements ISlider{
 
 	
@@ -32,22 +37,16 @@ public class SliderImpl implements ISlider{
 
 	@Override
 	public void setSliderchangedCmd(ICommand command) {
-		// TODO Auto-generated method stub
 		this.sliderChanged=command;
 	}
 
 
 	@Override
 	public void actualiserPosition(float position) {
-		// TODO Auto-generated method stub
 		this.position=position;
 		sliderChanged.execute();
 		
 	}
-
-	
-
-	
 
 
 }

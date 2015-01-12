@@ -11,13 +11,13 @@ import IMolette.ISlider;
 import IMolette.SliderImpl;
 import ME.IMetronomeEngine;
 
-public class Sliderchanged implements ICommand{
+public class SliderChanged implements ICommand{
 	ISlider slider;
 	IControlleur controlleur;
 	IIhm ihm;
 	
 
-	public Sliderchanged(ISlider slider, IControlleur controlleur ) {
+	public SliderChanged(ISlider slider, IControlleur controlleur ) {
 		this.slider=slider;
 		this.controlleur=controlleur;
 	}

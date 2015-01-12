@@ -1,8 +1,5 @@
 package ME;
-/**
- * @author dabo mohamed et odabalo essossolam tiadema
- * c'est le metronome engine principale.
- */
+
 import ConcreteCommand.ConcretCommandBeatEvent;
 import ConcreteCommand.ICommand;
 import ConcreteCommand.TempoChangedCommand;
@@ -11,7 +8,10 @@ import Controller.IControlleur;
 import HORLOGE.IHorloge;
 import HORLOGE.HorlogeImpl;;
 public class MetronomeEngineImpl implements IMetronomeEngine{
-
+	/**
+	 * @author dabo mohamed et odabalo essossolam tiadema
+	 * c'est le metronome engine principale.
+	 */
 	
 	private int tempo=20;
 	private int bar;
@@ -27,9 +27,7 @@ public class MetronomeEngineImpl implements IMetronomeEngine{
 	public MetronomeEngineImpl(){
 		
 	}
-	/**
-	 * @return the tempo
-	 */
+	
 	public int getTempo() {
 		return tempo;
 	}
@@ -61,15 +59,13 @@ public class MetronomeEngineImpl implements IMetronomeEngine{
 	}
 	@Override
 	public void setRunning(Boolean b) {
-		// TODO Auto-generated method stub
 		float temps=(float)60/(float)this.getTempo()*1000;
 		this.running=b;
 		if(b==true){
-		horloge.activerPeriodiquement(tickConcretCommand, temps);}
+		horloge.activerPeriodiquement2(tickConcretCommand, temps);}
 		if(b==false){
 			horloge.desactiver(tickConcretCommand);
-			this.beatEvenCommand.execute();
-		}
+			this.beatEvenCommand.execute();}
 		
 	}
 
@@ -105,7 +101,6 @@ public class MetronomeEngineImpl implements IMetronomeEngine{
 	}
 	@Override
 	public void setTickConcretCommand(ICommand command) {
-		// TODO Auto-generated method stub
 		this.tickConcretCommand=command;
 	}
 	@Override
@@ -118,23 +113,19 @@ public class MetronomeEngineImpl implements IMetronomeEngine{
 	}
 	@Override
 	public void setConcretCommandBeatEvent(ICommand command) {
-		// TODO Auto-generated method stub
 		this.beatEvenCommand=command;
 	}
 	@Override
 	public void setConcretCommandBarEvent(ICommand command) {
-		// TODO Auto-generated method stub
 		this.barEventCommand=command;
 	}
 
 	@Override
 	public void setHorloge(IHorloge horloge) {
-		// TODO Auto-generated method stub
 		this.horloge=horloge;
 	}
 	@Override
 	public boolean getRunning() {
-		// TODO Auto-generated method stub
 		return running;
 	}
 	@Override

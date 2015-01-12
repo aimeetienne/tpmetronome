@@ -1,11 +1,4 @@
 package IHM;
-/**
- * 
- * @author dabo mohamed et odabalo essossolam tiadema
- * c'est l'ihm il existe un pattern observeur entre l'ihm et les boutons concrets.
- * 
- */
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -27,6 +20,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.BorderLayout;
 
 import javax.swing.JTextField;
@@ -43,6 +38,8 @@ import java.util.TimerTask;
 import javax.swing.JSlider;
 import javax.swing.DefaultComboBoxModel;
 
+import ADAPTATEUR.Anti_adaptateur_bouton;
+import ADAPTATEUR.Anti_adaptateur_slider;
 import CLAVIER.IClavier;
 import ConcreteCommand.*;
 import Controller.ControlleurImpl;
@@ -50,6 +47,17 @@ import DISPLAY.IDisplay;
 import IMolette.ISlider;
 import IMolette.SliderImpl;
 import ME.MetronomeEngineImpl;
+
+/**
+ * 
+ * @author dabo mohamed et odabalo essossolam tiadema
+ * c'est l'ihm il existe un pattern observeur entre l'ihm et les boutons concrets.
+ * mais dans cette deuxième version les methodes actualisées du pattern observeur ne sont pas solliciter car 
+ * le déclenchement des évenements concernant le metronome engine ne sont plus liés a l'ihm. Ainsi l'ihm ne peut prévenir que 
+ * le anti adaptateur de bouton et de slider, qui a leur tour est visité regulièrement par les adaptateurs de bouton et de slider 
+ * qui peuvent ainsi informé  par l'intermediare de bouton concret et de commande concrete le metronome engine.
+ */
+
 public class IhmImpl extends JFrame implements IIhm,  ActionListener, ChangeListener{
 
 private JFrame fenetre;//fenêtre principale
@@ -61,29 +69,29 @@ private JSlider sliderTempo;//Slider de tempo
 private JPanel conteneur;
 private Label afficheurTempo;
 private Label afficheurMesure;
-
 static String valeurSliderTempo;
-static int mesure=2;
+int mesure=2;
 static float position=0;
 
 private Label led1;
 private Label led2;
-ICommand commande ;
-ICommand sliderChanged ;
-ICommand Stop;
-ISlider slider;
-IClavier bRunning;
-IClavier bIncrementer;
-IClavier bDecrementer;
-IClavier boutonStop;
-
+private Anti_adaptateur_bouton antiadaptateur;
+private Anti_adaptateur_slider antiadaptateurslider;
+private ICommand commande ;
+private ICommand sliderChanged ;
+private ICommand Stop;
+private ISlider slider;
+private IClavier bRunning;
+private IClavier bIncrementer;
+private IClavier bDecrementer;
+private IClavier boutonStop;
 
 /**
-* Launch bbbbbbbthe application.
+* Launch the application.
 */
 @SuppressWarnings("static-access")
 public IhmImpl() {
-		fenetre=new JFrame("MétronomeV1");
+		fenetre=new JFrame("MétronomeV2");
 		conteneur=new JPanel();
 		afficheurTempo=new Label("");
 		afficheurMesure=new Label("");
@@ -109,6 +117,7 @@ public IhmImpl() {
 		afficheurTempo.setPreferredSize(new Dimension(200, 30));
 		afficheurMesure.setPreferredSize(new Dimension(200, 30));
 		afficheurMesure.setText("Selectionner la mesure et le tempo");
+
 		led1.setPreferredSize(new Dimension(35, 15));
 		led1.setVisible(true);
 		led1.setBackground(getBackground().black);
@@ -148,61 +157,48 @@ public void actionPerformed(ActionEvent e) {
 	// TODO Auto-generated method stub
 	JButton button= (JButton) e.getSource();
 	if(bStart == button){
-		this.notifierRunning();
+		antiadaptateur.activeBouton(0);
 	}
 	
-	if(bStop==button){
-		Stop.execute();
-	}
 	
 	if(bIncremente == button){
-		this.notifierDecrement();
-		this.notifierIncremente();
 		if(mesure  < 7){
 		mesure++;
-		this.notifierIncremente();
+		antiadaptateur.activeBouton(2);
 		this.notifierDecrement();
-		
+		this.notifierIncremente();
 		}
 		else if(mesure ==7){
 			this.notifierIncremente();
 		}
 	}
 	
+	
 	if(bDecremente == button){
-		this.notifierIncremente();
-		this.notifierDecrement();
 		if(mesure > 2){
 		mesure--;
+		antiadaptateur.activeBouton(3);
 		this.notifierIncremente();
 		this.notifierDecrement();
-		
 		}
 		else if(mesure==2){
 			this.notifierDecrement();
 		}
 	}
 	
-	if(boutonStop==button){
-		this.notifierStop();
-	}
+	if(bStop==button){
+		antiadaptateur.activeBouton(1);}
+	
+	
 	}
 
-@Override
-public int getMesure() {
-	return mesure;
-}
-
-public static void setMesure(int mesure) {
-	IhmImpl.mesure = mesure;
-}
 
 public void stateChanged(ChangeEvent ev){
 double v=sliderTempo.getValue() ;
  position=(float) (v/10);
 	valeurSliderTempo= ""+ position;
-	afficheurTempo.setText("Tempo =" + " " +valeurSliderTempo);
-	this.notifierSliders();
+	antiadaptateurslider.readPositionSlider(position);
+	
 	
   }
 
@@ -232,37 +228,32 @@ public void supprimerObservateur(ISlider slider) {
 
 @Override
 public void notifierSliders() {
-	// TODO Auto-generated method stub
-	slider.actualiserPosition(position);
 }
 
 @Override
 public void setSlider(ISlider slider) {
-	// TODO Auto-generated method stub
+	this.slider=slider;
 }
 
 @Override
 public void afficherTempo(String s) {
-	// TODO Auto-generated method stub
 	afficheurTempo.setText("Tempo =" +" "+s);
 }
 
 @Override
 public void afficherMesure(String s) {
-	// TODO Auto-generated method stub
-	afficheurMesure.setText("Mesure =" +" "+s);
+	afficheurMesure.setText("mesure =" +" "+s);
 }
 
 @Override
 public void enregistrerRunnig(IClavier bRunning) {
-	// TODO Auto-generated method stub
 	this.bRunning=bRunning;
 }
 
 @Override
 public void notifierRunning() {
 	// TODO Auto-generated method stub
-	this.bRunning.actualiser();
+	//this.bRunning.actualiser();
 }
 
 @Override
@@ -274,7 +265,7 @@ public void enregistrerStop(IClavier bStop) {
 @Override
 public void notifierStop() {
 	// TODO Auto-generated method stub
-	this.boutonStop.actualiser();
+	//this.boutonStop.actualiser();
 }
 
 @Override
@@ -287,7 +278,7 @@ public void enregistrerIncremente(IClavier bIncrementer) {
 @Override
 public void notifierIncremente() {
 	// TODO Auto-generated method stub
-	this.bIncrementer.actualiser();
+	//this.bIncrementer.actualiser();
 	this.bIncrementer.setMesure(mesure);
 }
 
@@ -300,7 +291,7 @@ this.bDecrementer=bDecrementer;
 @Override
 public void notifierDecrement() {
 	// TODO Auto-generated method stub
-	this.bDecrementer.actualiser();
+	//this.bDecrementer.actualiser();
 	this.bDecrementer.setMesure(mesure);
 }
 
@@ -319,24 +310,34 @@ public void eteindreLed1() {
 
 @Override
 public void setConcretCommandStop(ICommand command) {
-	// TODO Auto-generated method stub
 	this.Stop=command;
 }
 
 @Override
 public void allumerLed2() {
-	// TODO Auto-generated method stub
 	led2.setBackground(Color.white);
 }
 
 @Override
 public void eteindreLed2() {
-	// TODO Auto-generated method stub
 	led2.setBackground(Color.black);
 }
 
 
+@Override
+public void setAntiadaptateur(Anti_adaptateur_bouton antiadaptateur) {
+	this.antiadaptateur=antiadaptateur;
+}
 
+@Override
+public int getMesure() {
+	return mesure;
+}
+
+@Override
+public void setAntiadaptateurSlider(Anti_adaptateur_slider antiadaptateurslider) {
+	this.antiadaptateurslider=antiadaptateurslider;
+}
 
 
 

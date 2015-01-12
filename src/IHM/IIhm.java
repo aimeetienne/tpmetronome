@@ -1,5 +1,7 @@
 package IHM;
 
+import ADAPTATEUR.Anti_adaptateur_bouton;
+import ADAPTATEUR.Anti_adaptateur_slider;
 import CLAVIER.IClavier;
 import ConcreteCommand.ICommand;
 import Controller.IControlleur;
@@ -16,10 +18,13 @@ public interface IIhm {
 	public void notifierRunning();
 	public void enregistrerStop(IClavier bStop);
 	public void notifierStop();
+	public void setAntiadaptateur(Anti_adaptateur_bouton antiadaptateur);
+	public void setAntiadaptateurSlider(Anti_adaptateur_slider antiadaptateurslider);
+
 	
 	public void enregistrerIncremente(IClavier bIncrementer);
 	public void notifierIncremente();
-	public int getMesure();
+	public  int getMesure();
 	public void enregistrerDecremente(IClavier bDecrementer);
 	public void notifierDecrement();
 	public void notifierSliders();

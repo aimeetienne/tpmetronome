@@ -9,6 +9,7 @@ import HORLOGE.HorlogeImpl;
 import HORLOGE.IHorloge;
 import IHM.IIhm;
 import ME.IMetronomeEngine;
+
 /**
  * 
  * @author dabo mohamed et odabalo essossolam tiadema
@@ -24,7 +25,6 @@ public class Led2 implements ILed {
 	IMetronomeEngine metronomeEngine;
 	AudioClip sonled2;
 	 public Led2(IIhm ihm) {
-		// TODO Auto-generated constructor stub
 		 this.sonled2 = Applet.newAudioClip(getClass().getResource("/Sons/beep-01a.wav"));
 		 this.ihm=ihm;
 	}
@@ -53,19 +53,16 @@ public class Led2 implements ILed {
 
 		@Override
 		public void setConcretCommandEteindre(ICommand eteindreLed) {
-			// TODO Auto-generated method stub
 			this.eteindreLed=eteindreLed;
 		}
 
 		@Override
 		public void setMetronomeEngine(IMetronomeEngine metronomeEngine) {
-			// TODO Auto-generated method stub
 			this.metronomeEngine=metronomeEngine;
 		}
 
 		@Override
 		public void setConcretCommandAllumer(ICommand allumerLed) {
-			// TODO Auto-generated method stub
 			this.allumerLed=allumerLed;
 		}
 

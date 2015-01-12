@@ -1,13 +1,13 @@
 package ConcreteCommand;
+
+import CLAVIER.IClavier;
+import Controller.IControlleur;
+import ME.IMetronomeEngine;
 /**
  * 
  * @author dabo mohamed et odabalo essossolam tiadema
  * c'est la commande concret qui s'occupe de decrementer la mesure.
  */
-import CLAVIER.IClavier;
-import Controller.IControlleur;
-import ME.IMetronomeEngine;
-
 public class ConcretCommandDecremente implements ICommand{
 	
 	
@@ -15,7 +15,6 @@ public class ConcretCommandDecremente implements ICommand{
 		IClavier Decrementer;
 		
 		 public ConcretCommandDecremente(IControlleur controlleur,IClavier Decrementer) {
-
 			 this.controlleur=controlleur;
 			 this.Decrementer=Decrementer;
 		}

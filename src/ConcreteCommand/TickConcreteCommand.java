@@ -1,12 +1,12 @@
 package ConcreteCommand;
+
+import ME.IMetronomeEngine;
+import ME.MetronomeEngineImpl;
 /**
  * 
  * @author dabo mohamed et odabalo essossolam tiadema
  * c'est la commande concret qui s'occupe de la gestion du tick.
  */
-import ME.IMetronomeEngine;
-import ME.MetronomeEngineImpl;
-
 public class TickConcreteCommand implements ICommand {
 
 	IMetronomeEngine metronomeEngine;
